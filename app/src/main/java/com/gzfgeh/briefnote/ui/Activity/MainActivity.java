@@ -1,19 +1,15 @@
-package com.gzfgeh.briefnote.ui;
+package com.gzfgeh.briefnote.ui.Activity;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.gzfgeh.briefnote.R;
@@ -23,13 +19,11 @@ import com.gzfgeh.briefnote.model.MenuObject;
 import com.gzfgeh.briefnote.model.MenuParams;
 import com.gzfgeh.briefnote.ui.Fragment.ContextMenuDialogFragment;
 import com.gzfgeh.briefnote.ui.Fragment.MainFragment;
-import com.gzfgeh.briefnote.utils.ThemeUtils;
-import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements OnMenuItemClickListener, OnMenuItemLongClickListener {
+public class MainActivity extends BaseActivity implements OnMenuItemClickListener, OnMenuItemLongClickListener {
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
@@ -38,40 +32,21 @@ public class MainActivity extends AppCompatActivity implements OnMenuItemClickLi
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        initTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        initStatusWindow();
         initToolBar();
+        initDrawerLayout();
         initMenuFragment();
         addFragment(new MainFragment(), true, R.id.container);
     }
 
-    private void initStatusWindow(){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-            SystemBarTintManager tintManager = new SystemBarTintManager(this);
-            tintManager.setStatusBarTintColor(getColorPrimary());
-            tintManager.setStatusBarTintEnabled(true);
-        }
+    @Override
+    protected void initToolBar() {
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        super.initToolBar(toolbar);
     }
 
-    private void initToolBar(){
-        toolbar = (Toolbar)findViewById(R.id.toolbar);
-        invalidateOptionsMenu();
-        toolbar.setTitle(getString(R.string.app_name));
-        toolbar.setBackgroundColor(getColorPrimary());
-        toolbar.setTitleTextColor(getResources().getColor(R.color.action_bar_title_color));
-        toolbar.collapseActionView();
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null){
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowTitleEnabled(false);
-        }
-        invalidateOptionsMenu();
-
+    private void initDrawerLayout(){
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, 0, 0){
             @Override
@@ -103,17 +78,6 @@ public class MainActivity extends AppCompatActivity implements OnMenuItemClickLi
         fragmentManager = getSupportFragmentManager();
     }
 
-    private void initTheme(){
-        ThemeUtils.Theme theme = ThemeUtils.Theme.mapValueToTheme(0);
-        ThemeUtils.changTheme(this, theme);
-    }
-
-    public int getColorPrimary(){
-        TypedValue typedValue = new  TypedValue();
-        getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
-        return typedValue.data;
-    }
-
     private void addFragment(Fragment fragment, boolean addToBackStack, int containId){
         invalidateOptionsMenu();
         String backStackName = fragment.getClass().getName();
@@ -138,6 +102,7 @@ public class MainActivity extends AppCompatActivity implements OnMenuItemClickLi
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_settings:
+                Toast.makeText(MainActivity.this, "action_setting", Toast.LENGTH_SHORT).show();
                 if (fragmentManager.findFragmentByTag(ContextMenuDialogFragment.TAG) == null)
                     menuDialogFragment.show(fragmentManager, ContextMenuDialogFragment.TAG);
 

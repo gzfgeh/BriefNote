@@ -12,29 +12,9 @@
         android:layout_height="match_parent"
         android:id="@+id/drawer_layout">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical" >
+        <include layout="@layout/main_fragment"/>
 
-            <android.support.v4.view.ViewPager
-                android:id="@+id/container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" >
-            </android.support.v4.view.ViewPager>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_gravity="start">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/hello_world"/>
-        </LinearLayout>
+        <include layout="@layout/left_menu" />
 
     </android.support.v4.widget.DrawerLayout>
 
