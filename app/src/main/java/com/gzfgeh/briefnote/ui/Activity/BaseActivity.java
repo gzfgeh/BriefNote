@@ -53,9 +53,10 @@ public abstract class BaseActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);  //add back icon
             getSupportActionBar().setDisplayShowTitleEnabled(true); //display title
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
-        }
+         }
 
     }
+
     public int getColorPrimary(){
         TypedValue typedValue = new  TypedValue();
         getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);

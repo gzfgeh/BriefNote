@@ -3,6 +3,8 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
+    <dimen name="drawer_width">180dp</dimen>
+
     <dimen name="menu_item_padding">2dp</dimen>
     <dimen name="text_right_padding">28dp</dimen>
     <dimen name="text_right_translation">8dp</dimen>

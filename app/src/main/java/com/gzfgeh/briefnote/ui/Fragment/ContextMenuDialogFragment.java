@@ -97,7 +97,7 @@ public class ContextMenuDialogFragment extends DialogFragment implements OnItemC
 	@Override
 	@Nullable
 	public View onCreateView(LayoutInflater inflater,@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_menu, container, false);
+		View rootView = inflater.inflate(R.layout.menu_fragment, container, false);
 		rootView.setFitsSystemWindows(menuParams.isFitsSystemWindow());
 		((ViewGroup)rootView).setClipToPadding(menuParams.isClipToPadding());
 		
