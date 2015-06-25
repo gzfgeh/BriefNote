@@ -60,6 +60,8 @@ public class MainActivity extends AppCompatActivity implements OnMenuItemClickLi
 
     private void initToolBar(){
         toolbar = (Toolbar)findViewById(R.id.toolbar);
+        invalidateOptionsMenu();
+        toolbar.setTitle(getString(R.string.app_name));
         toolbar.setBackgroundColor(getColorPrimary());
         toolbar.setTitleTextColor(getResources().getColor(R.color.action_bar_title_color));
         toolbar.collapseActionView();
