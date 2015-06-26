@@ -1,4 +1,4 @@
-package com.gzfgeh.briefnote.ui.Activity;
+package com.gzfgeh.briefnote.ui.Activity.HandleComponent;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
