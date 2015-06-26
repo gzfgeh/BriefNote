@@ -1,7 +1,5 @@
 package com.gzfgeh.briefnote.ui.Activity;
 
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
@@ -11,7 +9,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.LinearInterpolator;
 import android.widget.Toast;
 
 import com.gzfgeh.briefnote.R;
@@ -32,7 +29,7 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
     private ActionBarDrawerToggle drawerToggle;
     private ContextMenuDialogFragment menuDialogFragment;
     private FragmentManager fragmentManager;
-
+    private FloatingActionButton button, textBtn, photoBtn, soundsBtn, movieBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -154,82 +151,47 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
     }
 
     private void initFloatButton(){
-        final FloatingActionButton button = (FloatingActionButton) findViewById(fab);
+        button = (FloatingActionButton) findViewById(fab);
+        textBtn = (FloatingActionButton) findViewById(R.id.fab_text);
+        photoBtn = (FloatingActionButton) findViewById(R.id.fab_photo);
+        soundsBtn = (FloatingActionButton) findViewById(R.id.fab_sounds);
+        movieBtn = (FloatingActionButton) findViewById(R.id.fab_movie);
 
         button.setOnClickListener(new View.OnClickListener() {
-            FloatingActionButton textBtn, photoBtn, soundsBtn, movieBtn;
-            ObjectAnimator anim1,anim2,anim3,anim4,anim5,anim6,anim7,anim8,anim9,anim10;
-            boolean isClicked = true;
-
             @Override
             public void onClick(View v) {
-                if (isClicked) {
-                    textBtn = (FloatingActionButton) findViewById(R.id.fab_text);
-                    textBtn.setVisibility(View.VISIBLE);
-                    photoBtn = (FloatingActionButton) findViewById(R.id.fab_photo);
-                    photoBtn.setVisibility(View.VISIBLE);
-                    soundsBtn = (FloatingActionButton) findViewById(R.id.fab_sounds);
-                    soundsBtn.setVisibility(View.VISIBLE);
-                    movieBtn = (FloatingActionButton) findViewById(R.id.fab_movie);
-                    movieBtn.setVisibility(View.VISIBLE);
-
-                    anim1 = ObjectAnimator.ofFloat(textBtn, "alpha", 0f, 1f);
-                    anim2 = ObjectAnimator.ofFloat(textBtn, "y", textBtn.getTop(), 800);
-
-                    anim3 = ObjectAnimator.ofFloat(photoBtn, "alpha", 0f, 1f);
-                    anim4 = ObjectAnimator.ofFloat(photoBtn, "y", photoBtn.getTop(), 600);
-                    anim5 = ObjectAnimator.ofFloat(photoBtn, "x", photoBtn.getLeft(), 500);
-
-                    anim6 = ObjectAnimator.ofFloat(soundsBtn, "alpha", 0f, 1f);
-                    anim7 = ObjectAnimator.ofFloat(soundsBtn, "y", soundsBtn.getTop(), 500);
-                    anim8 = ObjectAnimator.ofFloat(soundsBtn, "x", soundsBtn.getLeft(), 600);
-
-                    anim9 = ObjectAnimator.ofFloat(movieBtn, "alpha", 0f, 1f);
-                    anim10 = ObjectAnimator.ofFloat(movieBtn, "x", movieBtn.getLeft(), 800);
-
-                    isClicked = false;
-                }else{
-                    anim1 = ObjectAnimator.ofFloat(textBtn, "alpha", 1f, 0f);
-                    anim2 = ObjectAnimator.ofFloat(textBtn, "y", textBtn.getTop(), button.getTop());
-
-                    anim3 = ObjectAnimator.ofFloat(photoBtn, "alpha", 1f, 0f);
-                    anim4 = ObjectAnimator.ofFloat(photoBtn, "y", photoBtn.getTop(), button.getTop());
-                    anim5 = ObjectAnimator.ofFloat(photoBtn, "x", photoBtn.getLeft(), button.getLeft());
-
-                    anim6 = ObjectAnimator.ofFloat(soundsBtn, "alpha", 1f, 0f);
-                    anim7 = ObjectAnimator.ofFloat(soundsBtn, "y", soundsBtn.getTop(), button.getTop());
-                    anim8 = ObjectAnimator.ofFloat(soundsBtn, "x", soundsBtn.getLeft(), button.getLeft());
-
-                    anim9 = ObjectAnimator.ofFloat(movieBtn, "alpha", 1f, 0f);
-                    anim10 = ObjectAnimator.ofFloat(movieBtn, "x", movieBtn.getLeft(), button.getLeft());
-
-                    textBtn = (FloatingActionButton) findViewById(R.id.fab_text);
-                    textBtn.setVisibility(View.GONE);
-                    photoBtn = (FloatingActionButton) findViewById(R.id.fab_photo);
-                    photoBtn.setVisibility(View.GONE);
-                    soundsBtn = (FloatingActionButton) findViewById(R.id.fab_sounds);
-                    soundsBtn.setVisibility(View.GONE);
-                    movieBtn = (FloatingActionButton) findViewById(R.id.fab_movie);
-                    movieBtn.setVisibility(View.GONE);
-
-                    isClicked = true;
-                }
-
-                AnimatorSet animSet = new AnimatorSet();
-                animSet.setDuration(300);
-                animSet.setInterpolator(new LinearInterpolator());
-                animSet.play(anim1).with(anim2);
-                animSet.play(anim2).with(anim3);
-                animSet.play(anim3).with(anim4);
-                animSet.play(anim4).with(anim5);
-                animSet.play(anim5).with(anim6);
-                animSet.play(anim6).with(anim7);
-                animSet.play(anim7).with(anim8);
-                animSet.play(anim8).with(anim9);
-                animSet.play(anim9).with(anim10);
-                animSet.start();
+                HandleFLoatButton.FloatButtonClick(button, textBtn, photoBtn, soundsBtn, movieBtn);
             }
         });
 
+        photoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "photo", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        soundsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "sounds", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        movieBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "movie", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        textBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "text", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
+
+
 }
