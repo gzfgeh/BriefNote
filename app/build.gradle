@@ -22,6 +22,8 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:22.2.0'
+    compile 'com.android.support:design:22.2.0'
     compile files('libs/systembartint-1.0.4.jar')
     compile files('libs/nineoldandroids-2.4.0.jar')
+
 }

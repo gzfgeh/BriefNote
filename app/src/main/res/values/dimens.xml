@@ -5,6 +5,7 @@
 
     <dimen name="drawer_width">180dp</dimen>
 
+    <!-- menu layout-->
     <dimen name="menu_item_padding">2dp</dimen>
     <dimen name="text_right_padding">28dp</dimen>
     <dimen name="text_right_translation">8dp</dimen>
@@ -16,5 +17,6 @@
     <dimen name="text_top_padding">25dp</dimen>
     <dimen name="title_text_size">26sp</dimen>
     <dimen name="tool_bar_height">56dp</dimen>
+
 
 </resources>
