@@ -53,6 +53,14 @@
         <item name="android:windowExitAnimation">@anim/abc_popup_exit</item>
     </style>
 
+    <style name="EditTextTheme">
+        <item name="android:textSize">@dimen/abc_text_size_medium_material</item>
+        <item name="android:textColor">@android:color/black</item>
+
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
     <style name="RedTheme" parent="AppTheme">
         <item name="colorPrimary">@color/red</item>
         <item name="colorPrimaryDark">@color/dark_red</item>

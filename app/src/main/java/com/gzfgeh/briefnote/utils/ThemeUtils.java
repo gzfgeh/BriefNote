@@ -9,6 +9,8 @@ import com.gzfgeh.briefnote.R;
  */
 public class ThemeUtils {
 
+    public static final String CHANGE_THEME = "CHANGE_THEME";
+
     public static void changTheme(Activity activity, Theme theme){
         if (activity == null)
             return;

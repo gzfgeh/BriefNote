@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar_layout"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_margin="20dp">
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                style="@style/EditTextTheme"
+                android:id="@+id/lable_edit_text"
+                app:met_primaryColor="?attr/colorPrimary"
+                app:met_floatingLabel="highlight"
+                app:met_floatingLabelText="@string/label"
+                app:met_floatingLabelAlwaysShown="true"
+                app:met_floatingLabelTextColor="?attr/colorPrimary"/>
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                style="@style/EditTextTheme"
+                android:layout_height="match_parent"
+                android:id="@+id/content_edit_text"
+                android:lineSpacingExtra="4dp"
+                app:met_hideUnderline="true"
+                app:met_primaryColor="?attr/colorPrimary"
+                app:met_floatingLabel="highlight"
+                app:met_floatingLabelAlwaysShown="true"
+                app:met_floatingLabelTextColor="?attr/colorPrimary"
+                app:met_floatingLabelText="@string/note_content" />
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>

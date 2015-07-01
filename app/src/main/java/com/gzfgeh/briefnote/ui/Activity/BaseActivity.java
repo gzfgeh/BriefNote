@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
+import android.view.MenuItem;
 import android.view.WindowManager;
 
 import com.gzfgeh.briefnote.R;
+import com.gzfgeh.briefnote.utils.SharePerferencesUtils;
 import com.gzfgeh.briefnote.utils.ThemeUtils;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
@@ -21,11 +23,12 @@ public abstract class BaseActivity extends AppCompatActivity {
         initTheme();    //must be before onCreate
         super.onCreate(savedInstanceState);
         initStatusWindow();
+        setContentView(getContentView());
         initToolBar();
     }
 
     private void initTheme(){
-        ThemeUtils.Theme theme = ThemeUtils.Theme.mapValueToTheme(0);
+        ThemeUtils.Theme theme = getCurrentTheme();
         ThemeUtils.changTheme(this, theme);
     }
 
@@ -63,5 +66,28 @@ public abstract class BaseActivity extends AppCompatActivity {
         return typedValue.data;
     }
 
+    private ThemeUtils.Theme getCurrentTheme(){
+        int value = SharePerferencesUtils.getValue(this, ThemeUtils.CHANGE_THEME, 0);
+        return ThemeUtils.Theme.mapValueToTheme(value);
+    }
+
+    /**
+     * ToolBar back event
+     * @param item
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     protected abstract void initToolBar();
+    protected abstract int getContentView();
 }

@@ -1,10 +1,12 @@
 package com.gzfgeh.briefnote.ui.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,26 +23,37 @@ import com.gzfgeh.briefnote.ui.Fragment.ContextMenuDialogFragment;
 import static com.gzfgeh.briefnote.R.id.fab;
 
 public class MainActivity extends BaseActivity implements OnMenuItemClickListener, OnMenuItemLongClickListener {
+
     private Toolbar toolbar;
+    private RecyclerView recyclerView;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
     private ContextMenuDialogFragment menuDialogFragment;
     private FragmentManager fragmentManager;
     private FloatingActionButton button, textBtn, photoBtn, soundsBtn, movieBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        initToolBar();
         initDrawerLayout();
         initMenuFragment();
         initFloatButton();
+        initRecyclerView();
+    }
+
+    private void initRecyclerView(){
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
     }
 
     @Override
     protected void initToolBar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         super.initToolBar(toolbar);
+    }
+
+    @Override
+    protected int getContentView() {
+        return R.layout.activity_main;
     }
 
     private void initDrawerLayout(){
@@ -148,6 +161,8 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
             @Override
             public void onClick(View v) {
                 Toast.makeText(MainActivity.this, "text", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this, TextActivity.class);
+                startActivity(intent);
             }
         });
     }

@@ -1,4 +1,4 @@
-package briefnote.briefnote;
+package com.gzfgeh.briefnote;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

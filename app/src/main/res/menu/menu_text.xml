@@ -1,0 +1,18 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/time"
+        android:orderInCategory="80"
+        android:title="@string/action_search"
+        android:icon="@drawable/reminder"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/finish"
+        android:icon="@drawable/ic_done_white"
+        android:title="@string/app_name"
+        android:orderInCategory="100"
+        app:showAsAction="ifRoom" />
+
+</menu>
