@@ -35,7 +35,6 @@ public class TextActivity extends BaseActivity {
         contentEditText = (MaterialEditText) findViewById(R.id.content_edit_text);
         titleEditText.addTextChangedListener(new SimpleTextWatcher());
         contentEditText.addTextChangedListener(new SimpleTextWatcher());
-        hideKeyBoard(titleEditText);
     }
 
     @Override
