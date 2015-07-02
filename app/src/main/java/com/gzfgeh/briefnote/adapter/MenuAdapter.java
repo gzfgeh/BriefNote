@@ -8,7 +8,7 @@ import com.gzfgeh.briefnote.R;
 import com.gzfgeh.briefnote.model.HesitateInterpolator;
 import com.gzfgeh.briefnote.model.MenuObject;
 import com.gzfgeh.briefnote.utils.AnimatorUtils;
-import com.gzfgeh.briefnote.utils.MenuUtil;
+import com.gzfgeh.briefnote.utils.MenuUtils;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
@@ -70,9 +70,9 @@ public class MenuAdapter {
 	    private void setViews() {
 	        for (int i = 0; i < mMenuObjects.size(); i++) {
 	            MenuObject menuObject = mMenuObjects.get(i);
-	            mTextWrapper.addView(MenuUtil.getItemTextView(mContext, menuObject, mMenuItemSize));
-	            mMenuWrapper.addView(MenuUtil.getImageWrapper(mContext, menuObject, mMenuItemSize,
-	                    clickItem, longClickItem, i != mMenuObjects.size() - 1));
+	            mTextWrapper.addView(MenuUtils.getItemTextView(mContext, menuObject, mMenuItemSize));
+	            mMenuWrapper.addView(MenuUtils.getImageWrapper(mContext, menuObject, mMenuItemSize,
+						clickItem, longClickItem, i != mMenuObjects.size() - 1));
 	        }
 	    }
 

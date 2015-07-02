@@ -1,4 +1,4 @@
-package com.gzfgeh.briefnote.DataBase;
+package com.gzfgeh.briefnote.database;
 
 import android.content.Context;
 

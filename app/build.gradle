@@ -34,4 +34,7 @@ dependencies {
     compile files('libs/systembartint-1.0.4.jar')
     compile files('libs/nineoldandroids-2.4.0.jar')
     compile(name: 'MaterialEditText-2.1.4', ext: 'aar')
+    compile files('libs/BmobSDK_V3.4.0_0616.jar')
+    compile files('libs/Bmob_Push_V0.6beta_20150408.jar')
+    compile files('libs/litepal-1.2.1.jar')
 }

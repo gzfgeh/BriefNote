@@ -18,9 +18,9 @@ import android.widget.TextView;
 import com.gzfgeh.briefnote.R;
 import com.gzfgeh.briefnote.model.MenuObject;
 
-public class MenuUtil {
+public class MenuUtils {
 	
-	private MenuUtil(){
+	private MenuUtils(){
 		
 	}
 	
@@ -101,7 +101,7 @@ public class MenuUtil {
         imageWrapper.setLayoutParams(imageWrapperLayoutParams);
         imageWrapper.setOnClickListener(onCLick);
         imageWrapper.setOnLongClickListener(onLongClick);
-        imageWrapper.addView(MenuUtil.getItemImageButton(context, menuItem));
+        imageWrapper.addView(MenuUtils.getItemImageButton(context, menuItem));
         if (showDivider) {
             imageWrapper.addView(getDivider(context, menuItem));
         }
