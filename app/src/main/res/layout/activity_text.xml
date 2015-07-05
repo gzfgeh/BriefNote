@@ -1,25 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:gzfgeh="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <include layout="@layout/toolbar_layout"/>
-
-    <com.gzfgeh.briefnote.view.ScrollerPicker
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/scroller_picker"
-        android:visibility="gone"
-        gzfgeh:unitHight="32dp"
-        gzfgeh:isEnable="true"
-        gzfgeh:noEmpty="true"
-        gzfgeh:normalTextSize="14sp"
-        gzfgeh:selecredTextSize="22sp"
-        gzfgeh:normalTextColor="@android:color/white"
-        gzfgeh:selecredTextColor="@android:color/black" />
 
     <ScrollView
         android:layout_width="match_parent"

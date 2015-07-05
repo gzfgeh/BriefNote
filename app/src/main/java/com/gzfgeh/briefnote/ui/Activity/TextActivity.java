@@ -8,17 +8,18 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.gzfgeh.briefnote.R;
 import com.gzfgeh.briefnote.database.DBObject;
-import com.gzfgeh.briefnote.view.ScrollerPicker;
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.rey.material.app.DatePickerDialog;
+import com.rey.material.app.Dialog;
+import com.rey.material.app.DialogFragment;
 
 import java.sql.Date;
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
 
 /**
  * Created by guzhenf on 7/1/2015.
@@ -29,14 +30,12 @@ public class TextActivity extends BaseActivity {
     private MenuItem finishMenuItem, timeMenuItem;
     private MaterialEditText titleEditText, contentEditText;
     private Date alertTime;
-    private ScrollerPicker scrollerPicker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         initEditText();
-        scrollerPicker = (ScrollerPicker) findViewById(R.id.scroller_picker);
     }
 
     private void initEditText(){
@@ -75,22 +74,30 @@ public class TextActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
+        Dialog.Builder builder = null;
         int id = item.getItemId();
         switch (id) {
 
             case R.id.time:
                 Toast.makeText(this, "time", Toast.LENGTH_SHORT).show();
-                //ScrollerPicker scrollerPicker = new ScrollerPicker(TextActivity.this, R.attr.NumberPicker);
-                scrollerPicker.setVisibility(View.VISIBLE);
-                ArrayList<String> data = new ArrayList<String>();
-                for (int i = 0; i < 10; i++)
-                {
-                    data.add("0" + i);
-                }
-                scrollerPicker.setData(data);
+                builder = new DatePickerDialog.Builder(){
+                    @Override
+                    public void onPositiveActionClicked(DialogFragment fragment) {
+                        DatePickerDialog dialog = (DatePickerDialog)fragment.getDialog();
+                        String date = dialog.getFormattedDate(SimpleDateFormat.getDateInstance());
+                        Toast.makeText(TextActivity.this, "Date is " + date, Toast.LENGTH_SHORT).show();
+                        super.onPositiveActionClicked(fragment);
+                    }
 
-                //DatePickerDialog(TextActivity.this, AlertDialog.THEME_HOLO_LIGHT);
+                    @Override
+                    public void onNegativeActionClicked(DialogFragment fragment) {
+                        Toast.makeText(TextActivity.this, "Cancelled" , Toast.LENGTH_SHORT).show();
+                        super.onNegativeActionClicked(fragment);
+                    }
+                };
+
+                builder.positiveAction("OK")
+                        .negativeAction("CANCEL");
                 return true;
 
             case R.id.finish:
