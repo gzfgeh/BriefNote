@@ -53,13 +53,13 @@ public class ShowViewUtils {
         progressDialog.show();
     }
 
-    public void hideProgressDialog() {
+    public static void hideProgressDialog() {
         if(progressDialog!=null&&progressDialog.isShowing()) {
             progressDialog.dismiss();
         }
     }
 
-    public void showToast(Context context, String hint){
+    public static void showToast(Context context, String hint){
         if (toast != null){
             toast=Toast.makeText(context,hint,Toast.LENGTH_SHORT);
             toast.show();

@@ -13,6 +13,8 @@ import android.widget.Toast;
 
 import com.gzfgeh.briefnote.R;
 import com.gzfgeh.briefnote.database.DBObject;
+import com.gzfgeh.briefnote.utils.ShowViewUtils;
+import com.gzfgeh.briefnote.utils.TimeUtils;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.rey.material.app.DatePickerDialog;
 import com.rey.material.app.Dialog;
@@ -21,6 +23,8 @@ import com.rey.material.app.TimePickerDialog;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+
+import cn.bmob.v3.listener.SaveListener;
 
 /**
  * Created by guzhenf on 7/1/2015.
@@ -82,6 +86,18 @@ public class TextActivity extends BaseActivity {
 
             case R.id.time:
                 showDateAndTime();
+//                BmobQuery<DBObject> bmobQuery = new BmobQuery<DBObject>();
+//                bmobQuery.getObject(this, "11897ab790", new GetListener<DBObject>() {
+//                    @Override
+//                    public void onSuccess(DBObject object) {
+//                        ShowViewUtils.showToast(TextActivity.this, object.getCreatedAt());
+//                    }
+//
+//                    @Override
+//                    public void onFailure(int code, String msg) {
+//                        ShowViewUtils.showToast(TextActivity.this, "fail");
+//                    }
+//                });
                 return true;
 
             case R.id.finish:
@@ -100,13 +116,29 @@ public class TextActivity extends BaseActivity {
     }
 
     private void saveTextNote(String title, String content){
+        hideKeyBoard(titleEditText);
         DBObject dbObject = new DBObject();
         dbObject.setTitle(title);
         dbObject.setContent(content);
         dbObject.setUrl("");
-        dbObject.setCreateDate(new Date(System.currentTimeMillis()));
-        dbObject.setOperateDate(new Date(System.currentTimeMillis()));
-        dbObject.setAlertTime(new Date(System.currentTimeMillis()));
+
+        if (s[0] == null || s[1] == null)
+            dbObject.setAlertTime(null);
+        else
+            dbObject.setAlertTime(new Date(TimeUtils.timeFormatToLong(s[0] + " " + s[1])));
+
+        dbObject.save(this, new SaveListener(){
+
+            @Override
+            public void onSuccess() {
+                ShowViewUtils.showToast(TextActivity.this, "success");
+            }
+
+            @Override
+            public void onFailure(int i, String s) {
+                ShowViewUtils.showToast(TextActivity.this, s + " fail");
+            }
+        });
     }
 
     private void hideKeyBoard(MaterialEditText editText){
@@ -148,7 +180,6 @@ public class TextActivity extends BaseActivity {
         Dialog.Builder builder = null;
         DialogFragment fragment;
 
-
         builder = new TimePickerDialog.Builder(6, 00){
             @Override
             public void onPositiveActionClicked(DialogFragment fragment) {
@@ -164,7 +195,6 @@ public class TextActivity extends BaseActivity {
                 super.onNegativeActionClicked(fragment);
             }
         };
-
         builder.positiveAction("OK").negativeAction("CANCEL");
         fragment = DialogFragment.newInstance(builder);
         fragment.show(getSupportFragmentManager(), null);

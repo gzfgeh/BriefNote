@@ -1,19 +1,17 @@
 package com.gzfgeh.briefnote.database;
 
-import org.litepal.crud.DataSupport;
-
 import java.sql.Date;
+
+import cn.bmob.v3.BmobObject;
 
 /**
  * Created by guzhenf on 7/2/2015.
  */
-public class DBObject extends DataSupport {
+public class DBObject extends BmobObject {
 
     private String title;
     private String content;
     private String url;
-    private Date createDate;
-    private Date operateDate;
     private Date alertTime;
 
     public String getTitle() {
@@ -38,22 +36,6 @@ public class DBObject extends DataSupport {
 
     public void setUrl(String url) {
         this.url = url;
-    }
-
-    public Date getOperateDate() {
-        return operateDate;
-    }
-
-    public void setOperateDate(Date operateDate) {
-        this.operateDate = operateDate;
-    }
-
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
     }
 
     public Date getAlertTime() {
