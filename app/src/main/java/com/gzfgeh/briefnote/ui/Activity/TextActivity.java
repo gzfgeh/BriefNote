@@ -17,6 +17,7 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 import com.rey.material.app.DatePickerDialog;
 import com.rey.material.app.Dialog;
 import com.rey.material.app.DialogFragment;
+import com.rey.material.app.TimePickerDialog;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
@@ -29,7 +30,7 @@ public class TextActivity extends BaseActivity {
     private Toolbar toolbar;
     private MenuItem finishMenuItem, timeMenuItem;
     private MaterialEditText titleEditText, contentEditText;
-    private Date alertTime;
+    private final String[] s = new String[2];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,30 +75,13 @@ public class TextActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Dialog.Builder builder = null;
+
+
         int id = item.getItemId();
         switch (id) {
 
             case R.id.time:
-                Toast.makeText(this, "time", Toast.LENGTH_SHORT).show();
-                builder = new DatePickerDialog.Builder(){
-                    @Override
-                    public void onPositiveActionClicked(DialogFragment fragment) {
-                        DatePickerDialog dialog = (DatePickerDialog)fragment.getDialog();
-                        String date = dialog.getFormattedDate(SimpleDateFormat.getDateInstance());
-                        Toast.makeText(TextActivity.this, "Date is " + date, Toast.LENGTH_SHORT).show();
-                        super.onPositiveActionClicked(fragment);
-                    }
-
-                    @Override
-                    public void onNegativeActionClicked(DialogFragment fragment) {
-                        Toast.makeText(TextActivity.this, "Cancelled" , Toast.LENGTH_SHORT).show();
-                        super.onNegativeActionClicked(fragment);
-                    }
-                };
-
-                builder.positiveAction("OK")
-                        .negativeAction("CANCEL");
+                showDateAndTime();
                 return true;
 
             case R.id.finish:
@@ -158,5 +142,51 @@ public class TextActivity extends BaseActivity {
         public void afterTextChanged(Editable s) {
 
         }
+    }
+
+    private void showDateAndTime(){
+        Dialog.Builder builder = null;
+        DialogFragment fragment;
+
+
+        builder = new TimePickerDialog.Builder(6, 00){
+            @Override
+            public void onPositiveActionClicked(DialogFragment fragment) {
+                TimePickerDialog dialog = (TimePickerDialog)fragment.getDialog();
+                s[0] = dialog.getFormattedTime(SimpleDateFormat.getTimeInstance());
+                Toast.makeText(TextActivity.this, "Time is " + s[0], Toast.LENGTH_SHORT).show();
+                super.onPositiveActionClicked(fragment);
+            }
+
+            @Override
+            public void onNegativeActionClicked(DialogFragment fragment) {
+                Toast.makeText(TextActivity.this, "Cancelled" , Toast.LENGTH_SHORT).show();
+                super.onNegativeActionClicked(fragment);
+            }
+        };
+
+        builder.positiveAction("OK").negativeAction("CANCEL");
+        fragment = DialogFragment.newInstance(builder);
+        fragment.show(getSupportFragmentManager(), null);
+
+        builder = new DatePickerDialog.Builder(){
+            @Override
+            public void onPositiveActionClicked(DialogFragment fragment) {
+                DatePickerDialog dialog = (DatePickerDialog)fragment.getDialog();
+                s[1] = dialog.getFormattedDate(SimpleDateFormat.getDateInstance());
+                Toast.makeText(TextActivity.this, "Date is " + s[1], Toast.LENGTH_SHORT).show();
+                super.onPositiveActionClicked(fragment);
+            }
+
+            @Override
+            public void onNegativeActionClicked(DialogFragment fragment) {
+                Toast.makeText(TextActivity.this, "Cancelled" , Toast.LENGTH_SHORT).show();
+                super.onNegativeActionClicked(fragment);
+            }
+        };
+
+        builder.positiveAction("OK").negativeAction("CANCEL");
+        fragment = DialogFragment.newInstance(builder);
+        fragment.show(getSupportFragmentManager(), null);
     }
 }
