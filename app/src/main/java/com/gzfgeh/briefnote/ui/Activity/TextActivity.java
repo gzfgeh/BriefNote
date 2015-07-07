@@ -23,7 +23,6 @@ import com.rey.material.app.DialogFragment;
 import com.rey.material.app.TimePickerDialog;
 
 import java.sql.Date;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 import cn.bmob.v3.listener.SaveListener;
@@ -110,6 +109,7 @@ public class TextActivity extends BaseActivity {
                 if (!(TextUtils.isEmpty(title)) && !(TextUtils.isEmpty(content)))
                     saveTextNote(title, content);
 
+                finish();
                 return true;
 
             default:
@@ -127,8 +127,11 @@ public class TextActivity extends BaseActivity {
 
         if (s[0] == null || s[1] == null)
             dbObject.setAlertTime(new Date(0));
-        else
-            dbObject.setAlertTime(new Date(TimeUtils.timeFormatToLong(s[0] + " " + s[1])));
+        else{
+            String time = s[0] + " " + s[1];
+            dbObject.setAlertTime(new Date(TimeUtils.timeFormatToLong(time)));
+        }
+
 
         dbObject.save(this, new SaveListener(){
 
@@ -187,14 +190,12 @@ public class TextActivity extends BaseActivity {
             @Override
             public void onPositiveActionClicked(DialogFragment fragment) {
                 TimePickerDialog dialog = (TimePickerDialog)fragment.getDialog();
-                s[1] = dialog.getFormattedTime(SimpleDateFormat.getTimeInstance(DateFormat.SHORT));
-                Toast.makeText(TextActivity.this, "Time is " + s[1], Toast.LENGTH_SHORT).show();
+                s[1] = dialog.getFormattedTime(new SimpleDateFormat("HH:mm:ss"));
                 super.onPositiveActionClicked(fragment);
             }
 
             @Override
             public void onNegativeActionClicked(DialogFragment fragment) {
-                Toast.makeText(TextActivity.this, "Cancelled" , Toast.LENGTH_SHORT).show();
                 super.onNegativeActionClicked(fragment);
             }
         };
@@ -206,14 +207,12 @@ public class TextActivity extends BaseActivity {
             @Override
             public void onPositiveActionClicked(DialogFragment fragment) {
                 DatePickerDialog dialog = (DatePickerDialog)fragment.getDialog();
-                s[0] = dialog.getFormattedDate(SimpleDateFormat.getDateInstance());
-                Toast.makeText(TextActivity.this, "Date is " + s[0], Toast.LENGTH_SHORT).show();
+                s[0] = dialog.getFormattedDate(new SimpleDateFormat("yyyy-MM-dd"));
                 super.onPositiveActionClicked(fragment);
             }
 
             @Override
             public void onNegativeActionClicked(DialogFragment fragment) {
-                Toast.makeText(TextActivity.this, "Cancelled" , Toast.LENGTH_SHORT).show();
                 super.onNegativeActionClicked(fragment);
             }
         };
