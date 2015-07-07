@@ -9,6 +9,7 @@ import cn.bmob.v3.BmobObject;
  */
 public class DBObject extends BmobObject {
 
+    private String email;
     private String title;
     private String content;
     private String url;
@@ -44,5 +45,13 @@ public class DBObject extends BmobObject {
 
     public void setAlertTime(Date alertTime) {
         this.alertTime = alertTime;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
