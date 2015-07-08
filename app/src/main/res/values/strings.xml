@@ -7,5 +7,6 @@
     <string name="label">标题</string>
     <string name="note_content">内容</string>
     <string name="sync_account_key">sync_account_key</string>
+    <string name="new_text">新的笔记</string>
 
 </resources>

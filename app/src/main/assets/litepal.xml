@@ -5,7 +5,7 @@
     <version value="1" ></version>
 
     <list>
-        <mapping class="com.gzfgeh.briefnote.database.DBObject"></mapping>
+        <mapping class="com.gzfgeh.briefnote.model.Note"></mapping>
     </list>
 
 </litepal>

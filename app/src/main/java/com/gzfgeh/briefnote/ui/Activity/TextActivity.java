@@ -1,6 +1,7 @@
 package com.gzfgeh.briefnote.ui.Activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -9,10 +10,11 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Toast;
 
 import com.gzfgeh.briefnote.R;
 import com.gzfgeh.briefnote.database.DBObject;
+import com.gzfgeh.briefnote.model.Note;
+import com.gzfgeh.briefnote.ui.IntentType;
 import com.gzfgeh.briefnote.utils.SharePerferencesUtils;
 import com.gzfgeh.briefnote.utils.ShowViewUtils;
 import com.gzfgeh.briefnote.utils.TimeUtils;
@@ -36,12 +38,26 @@ public class TextActivity extends BaseActivity {
     private MenuItem finishMenuItem, timeMenuItem;
     private MaterialEditText titleEditText, contentEditText;
     private final String[] s = new String[2];
+    private int type;
+    private Note note;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        parseIntent(getIntent());
+    }
 
+    public void onEventMainThread(Note note){
+        this.note = note;
         initEditText();
+        initToolBar();
+    }
+
+    private void parseIntent(Intent intent){
+        if (intent == null || intent.getExtras() == null)
+            return;
+
+        type = intent.getExtras().getInt(IntentType.INTENT_KEY, 0);
     }
 
     private void initEditText(){
@@ -55,6 +71,11 @@ public class TextActivity extends BaseActivity {
     protected void initToolBar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         super.initToolBar(toolbar);
+        switch (type){
+            case IntentType.NEW_TEXT:
+                toolbar.setTitle(getString(R.string.new_text));
+                break;
+        }
     }
 
     @Override
@@ -87,22 +108,9 @@ public class TextActivity extends BaseActivity {
 
             case R.id.time:
                 showDateAndTime();
-//                BmobQuery<DBObject> bmobQuery = new BmobQuery<DBObject>();
-//                bmobQuery.getObject(this, "11897ab790", new GetListener<DBObject>() {
-//                    @Override
-//                    public void onSuccess(DBObject object) {
-//                        ShowViewUtils.showToast(TextActivity.this, object.getCreatedAt());
-//                    }
-//
-//                    @Override
-//                    public void onFailure(int code, String msg) {
-//                        ShowViewUtils.showToast(TextActivity.this, "fail");
-//                    }
-//                });
                 return true;
 
             case R.id.finish:
-                Toast.makeText(this, "finish", Toast.LENGTH_SHORT).show();
                 String title    = titleEditText.getText().toString();
                 String content  = contentEditText.getText().toString();
 

@@ -1,5 +1,6 @@
 package com.gzfgeh.briefnote;
 
+import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
 
@@ -20,11 +21,17 @@ public class APP extends LitePalApplication {
 
     private SQLiteDatabase db;
     private String email;
+    private static Context context;
+
+    public static Context getContext() {
+        return context;
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
 
+        context = getApplicationContext();
         Bmob.initialize(this, "ff52ea8fbec04dfc826eef0ea661ea66");
 
         if (db != null)
@@ -49,6 +56,7 @@ public class APP extends LitePalApplication {
                 }
             });
         }
+
     }
 
     public SQLiteDatabase getDb() {

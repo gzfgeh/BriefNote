@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 
 import com.gzfgeh.briefnote.R;
+import com.gzfgeh.briefnote.model.ScopedBus;
 import com.gzfgeh.briefnote.utils.SharePerferencesUtils;
 import com.gzfgeh.briefnote.utils.ThemeUtils;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
@@ -17,6 +18,11 @@ import com.readystatesoftware.systembartint.SystemBarTintManager;
  * Created by guzhenf on 6/25/2015.
  */
 public abstract class BaseActivity extends AppCompatActivity {
+    private final ScopedBus scopedBus = new ScopedBus();
+
+    public ScopedBus getBus() {
+        return scopedBus;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +31,19 @@ public abstract class BaseActivity extends AppCompatActivity {
         initStatusWindow();
         setContentView(getContentView());
         initToolBar();
+        getBus().register(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        scopedBus.paused();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        scopedBus.resumed();
     }
 
     private void initTheme(){
@@ -46,7 +65,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (toolbar == null)
             return;
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.app_name));
         toolbar.setBackgroundColor(getColorPrimary());
         toolbar.setTitleTextColor(getResources().getColor(R.color.action_bar_title_color));

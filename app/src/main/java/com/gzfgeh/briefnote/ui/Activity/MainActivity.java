@@ -16,9 +16,11 @@ import android.widget.Toast;
 import com.gzfgeh.briefnote.R;
 import com.gzfgeh.briefnote.listener.OnMenuItemClickListener;
 import com.gzfgeh.briefnote.listener.OnMenuItemLongClickListener;
+import com.gzfgeh.briefnote.model.Note;
 import com.gzfgeh.briefnote.ui.Activity.HandleComponent.HandleFLoatButton;
 import com.gzfgeh.briefnote.ui.Activity.HandleComponent.HandleMenu;
 import com.gzfgeh.briefnote.ui.Fragment.ContextMenuDialogFragment;
+import com.gzfgeh.briefnote.ui.IntentType;
 
 import static com.gzfgeh.briefnote.R.id.fab;
 
@@ -39,6 +41,7 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
         initMenuFragment();
         initFloatButton();
         initRecyclerView();
+
     }
 
     private void initRecyclerView(){
@@ -55,6 +58,11 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
     protected int getContentView() {
         return R.layout.activity_main;
     }
+
+    public void onEventMainThread(Object object) {
+
+    }
+
 
     private void initDrawerLayout(){
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -160,12 +168,19 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
         textBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "text", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(MainActivity.this, TextActivity.class);
-                startActivity(intent);
+                Note note = new Note();
+                startNoteActivity(IntentType.NEW_TEXT, note);
             }
         });
     }
 
+    private void startNoteActivity(int type, Note note){
+        Intent intent = new Intent(this, TextActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt(IntentType.INTENT_KEY, type);
+        getBus().post(note);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
 
 }
