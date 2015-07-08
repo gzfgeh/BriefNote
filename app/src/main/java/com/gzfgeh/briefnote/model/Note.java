@@ -1,26 +1,20 @@
 package com.gzfgeh.briefnote.model;
 
+import org.litepal.crud.DataSupport;
+
 import java.io.Serializable;
 import java.sql.Date;
 
 /**
  * Created by guzhenf on 7/8/2015.
  */
-public class Note implements Serializable{
+public class Note extends DataSupport implements Serializable{
 
-    private int id;
     private String title;
     private String content;
     private String url;
+    private Date lastOptTime;
     private Date alertTime;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getTitle() {
         return title;
@@ -53,4 +47,13 @@ public class Note implements Serializable{
     public void setAlertTime(Date alertTime) {
         this.alertTime = alertTime;
     }
+
+    public Date getLastOptTime() {
+        return lastOptTime;
+    }
+
+    public void setLastOptTime(Date lastOptTime) {
+        this.lastOptTime = lastOptTime;
+    }
+
 }

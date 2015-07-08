@@ -16,6 +16,11 @@ public final class NoteToDBObject {
 
         DBObject object = new DBObject();
         object.setEmail(SharePerferencesUtils.getValue(APP.getContext(), APP.getContext().getString(R.string.sync_account_key), null));
+        object.setTitle(note.getTitle());
+        object.setContent(note.getContent());
+        object.setUrl(note.getUrl());
+        object.setAlertTime(note.getAlertTime());
+
         return object;
     }
 }

@@ -10,12 +10,13 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import com.gzfgeh.briefnote.R;
 import com.gzfgeh.briefnote.database.DBObject;
 import com.gzfgeh.briefnote.model.Note;
+import com.gzfgeh.briefnote.model.NoteToDBObject;
 import com.gzfgeh.briefnote.ui.IntentType;
-import com.gzfgeh.briefnote.utils.SharePerferencesUtils;
 import com.gzfgeh.briefnote.utils.ShowViewUtils;
 import com.gzfgeh.briefnote.utils.TimeUtils;
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -127,20 +128,24 @@ public class TextActivity extends BaseActivity {
 
     private void saveTextNote(String title, String content){
         hideKeyBoard(titleEditText);
-        DBObject dbObject = new DBObject();
-        dbObject.setEmail(SharePerferencesUtils.getValue(this, getString(R.string.sync_account_key), null));
-        dbObject.setTitle(title);
-        dbObject.setContent(content);
-        dbObject.setUrl("");
+        note.setTitle(title);
+        note.setContent(content);
+        note.setUrl("");
+        note.setLastOptTime(new Date(System.currentTimeMillis()));
 
         if (s[0] == null || s[1] == null)
-            dbObject.setAlertTime(new Date(0));
+            note.setAlertTime(new Date(0));
         else{
             String time = s[0] + " " + s[1];
-            dbObject.setAlertTime(new Date(TimeUtils.timeFormatToLong(time)));
+            note.setAlertTime(new Date(TimeUtils.timeFormatToLong(time)));
+        }
+        if (note.save()) {
+            Toast.makeText(this, "存储成功", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "存储失败", Toast.LENGTH_SHORT).show();
         }
 
-
+        DBObject dbObject = NoteToDBObject.convert(note);
         dbObject.save(this, new SaveListener(){
 
             @Override
