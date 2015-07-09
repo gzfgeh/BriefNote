@@ -64,6 +64,16 @@ public class TextActivity extends BaseActivity {
     private void initEditText(){
         titleEditText = (MaterialEditText) findViewById(R.id.lable_edit_text);
         contentEditText = (MaterialEditText) findViewById(R.id.content_edit_text);
+
+        switch (type){
+            case IntentType.NEW_TEXT:
+                break;
+
+            case IntentType.EDIT_TEXT:
+                titleEditText.setText(note.getTitle());
+                contentEditText.setText(note.getContent());
+                break;
+        }
         titleEditText.addTextChangedListener(new SimpleTextWatcher());
         contentEditText.addTextChangedListener(new SimpleTextWatcher());
     }
@@ -75,6 +85,10 @@ public class TextActivity extends BaseActivity {
         switch (type){
             case IntentType.NEW_TEXT:
                 toolbar.setTitle(getString(R.string.new_text));
+                break;
+
+            case IntentType.EDIT_TEXT:
+                toolbar.setTitle(getString(R.string.edit_text));
                 break;
         }
     }
@@ -103,10 +117,8 @@ public class TextActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-
         int id = item.getItemId();
         switch (id) {
-
             case R.id.time:
                 showDateAndTime();
                 return true;
@@ -114,10 +126,10 @@ public class TextActivity extends BaseActivity {
             case R.id.finish:
                 String title    = titleEditText.getText().toString();
                 String content  = contentEditText.getText().toString();
-
                 if (!(TextUtils.isEmpty(title)) && !(TextUtils.isEmpty(content)))
                     saveTextNote(title, content);
 
+                getBus().post(IntentType.UPDATE_TEXT);
                 finish();
                 return true;
 
@@ -131,7 +143,7 @@ public class TextActivity extends BaseActivity {
         note.setTitle(title);
         note.setContent(content);
         note.setUrl("");
-        note.setLastOptTime(new Date(System.currentTimeMillis()));
+        note.setLastOptTime(TimeUtils.getCurrentTimeInLong());
 
         if (s[0] == null || s[1] == null)
             note.setAlertTime(new Date(0));
@@ -143,6 +155,7 @@ public class TextActivity extends BaseActivity {
             Toast.makeText(this, "存储成功", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "存储失败", Toast.LENGTH_SHORT).show();
+            return;
         }
 
         DBObject dbObject = NoteToDBObject.convert(note);

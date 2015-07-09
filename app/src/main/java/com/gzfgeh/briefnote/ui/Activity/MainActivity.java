@@ -15,6 +15,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.gzfgeh.briefnote.R;
+import com.gzfgeh.briefnote.adapter.BaseRecyclerViewAdapter;
+import com.gzfgeh.briefnote.adapter.NotesAdapter;
 import com.gzfgeh.briefnote.listener.OnMenuItemClickListener;
 import com.gzfgeh.briefnote.listener.OnMenuItemLongClickListener;
 import com.gzfgeh.briefnote.model.Note;
@@ -22,6 +24,10 @@ import com.gzfgeh.briefnote.ui.Activity.HandleComponent.HandleFLoatButton;
 import com.gzfgeh.briefnote.ui.Activity.HandleComponent.HandleMenu;
 import com.gzfgeh.briefnote.ui.Fragment.ContextMenuDialogFragment;
 import com.gzfgeh.briefnote.ui.IntentType;
+
+import org.litepal.crud.DataSupport;
+
+import java.util.List;
 
 import static com.gzfgeh.briefnote.R.id.fab;
 
@@ -34,6 +40,8 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
     private ContextMenuDialogFragment menuDialogFragment;
     private FragmentManager fragmentManager;
     private FloatingActionButton button, textBtn, photoBtn, soundsBtn, movieBtn;
+    private NotesAdapter recyclerAdapter;
+    private boolean hasUpdateNote = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +55,18 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
 
     private void initRecyclerView(){
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        LinearLayoutManager manager = new LinearLayoutManager(this);
+        LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(manager);
+        recyclerView.setHasFixedSize(true);
+        recyclerAdapter = new NotesAdapter(initItemData(), this);
+        recyclerAdapter.setOnInViewClickListener(R.id.notes_item_root,
+               new BaseRecyclerViewAdapter.onInternalClickListenerImpl<Note>(){
+                   @Override
+                   public void OnClickListener(View parentV, View v, Integer position, Note values) {
+                       super.OnClickListener(parentV, v, position, values);
+                       startNoteActivity(IntentType.EDIT_TEXT, values);
+                   }
+               });
     }
 
     @Override
@@ -62,8 +80,12 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
         return R.layout.activity_main;
     }
 
-    public void onEventMainThread(Object object) {
-
+    public void onEventMainThread(Integer event) {
+        switch (event){
+            case IntentType.UPDATE_TEXT:
+                hasUpdateNote = true;
+                break;
+        }
     }
 
 
@@ -186,4 +208,21 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
         startActivity(intent);
     }
 
+    private List<Note> initItemData(){
+        List<Note> itemList = DataSupport.findAll(Note.class);
+        return itemList;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (hasUpdateNote){
+            updateDisplay();
+            hasUpdateNote = false;
+        }
+    }
+
+    private void updateDisplay(){
+        recyclerAdapter.setList(initItemData());
+    }
 }

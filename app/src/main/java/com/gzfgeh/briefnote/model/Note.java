@@ -13,7 +13,7 @@ public class Note extends DataSupport implements Serializable{
     private String title;
     private String content;
     private String url;
-    private Date lastOptTime;
+    private long lastOptTime;
     private Date alertTime;
 
     public String getTitle() {
@@ -48,11 +48,11 @@ public class Note extends DataSupport implements Serializable{
         this.alertTime = alertTime;
     }
 
-    public Date getLastOptTime() {
+    public long getLastOptTime() {
         return lastOptTime;
     }
 
-    public void setLastOptTime(Date lastOptTime) {
+    public void setLastOptTime(long lastOptTime) {
         this.lastOptTime = lastOptTime;
     }
 

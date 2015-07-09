@@ -8,5 +8,11 @@
     <string name="note_content">内容</string>
     <string name="sync_account_key">sync_account_key</string>
     <string name="new_text">新的笔记</string>
+    <string name="edit_text">编辑笔记</string>
+
+    <string name="today" formatted="false">今天\u0020%s</string>
+    <string name="before_day" formatted="false">%d\u0020天前</string>
+    <string name="before_month" formatted="false">%d\u0020个月前</string>
+    <string name="before_year" formatted="false">%d\u0020年前</string>
 
 </resources>
