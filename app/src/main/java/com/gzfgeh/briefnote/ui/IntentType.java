@@ -9,4 +9,7 @@ public class IntentType {
     public static final int NEW_TEXT        = 1;
     public static final int EDIT_TEXT       = 2;
     public static final int UPDATE_TEXT     = 3;
+    public static final String ACTION_KEY   = "ACTION_KEY";
+    public static final String GET_NET_DATA = "GET_NET_DATA";
+
 }

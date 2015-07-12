@@ -2,6 +2,7 @@ package com.gzfgeh.briefnote.ui.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
@@ -19,13 +20,13 @@ import com.gzfgeh.briefnote.adapter.BaseRecyclerViewAdapter;
 import com.gzfgeh.briefnote.adapter.NotesAdapter;
 import com.gzfgeh.briefnote.listener.OnMenuItemClickListener;
 import com.gzfgeh.briefnote.listener.OnMenuItemLongClickListener;
+import com.gzfgeh.briefnote.model.DataModel;
 import com.gzfgeh.briefnote.model.Note;
 import com.gzfgeh.briefnote.ui.Activity.HandleComponent.HandleFLoatButton;
 import com.gzfgeh.briefnote.ui.Activity.HandleComponent.HandleMenu;
 import com.gzfgeh.briefnote.ui.Fragment.ContextMenuDialogFragment;
 import com.gzfgeh.briefnote.ui.IntentType;
-
-import org.litepal.crud.DataSupport;
+import com.gzfgeh.briefnote.view.SwipeRefreshLayout;
 
 import java.util.List;
 
@@ -42,23 +43,58 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
     private FloatingActionButton button, textBtn, photoBtn, soundsBtn, movieBtn;
     private NotesAdapter recyclerAdapter;
     private boolean hasUpdateNote = false;
+    private boolean isRefreshing = false;
+    private List<Note> datas;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        datas = DataModel.getItemData();
         initDrawerLayout();
         initMenuFragment();
         initFloatButton();
         initRecyclerView();
-
+        initSwipeRefreshView();
     }
+
+    private void initSwipeRefreshView() {
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refresh);
+        swipeRefreshLayout.setColor(android.R.color.holo_blue_light,
+                android.R.color.holo_red_light, android.R.color.holo_orange_light, android.R.color.holo_green_light);
+        swipeRefreshLayout.setLoadNoFull(true);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                }, 3000);
+            }
+        });
+
+        swipeRefreshLayout.setOnLoadListener(new SwipeRefreshLayout.OnLoadListener() {
+            @Override
+            public void onLoad() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeRefreshLayout.setLoading(false);
+                    }
+                }, 3000);
+            }
+        });
+    }
+
 
     private void initRecyclerView(){
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(manager);
         recyclerView.setHasFixedSize(true);
-        recyclerAdapter = new NotesAdapter(initItemData(), this);
+        recyclerAdapter = new NotesAdapter(datas, this);
         recyclerAdapter.setOnInViewClickListener(R.id.notes_item_root,
                new BaseRecyclerViewAdapter.onInternalClickListenerImpl<Note>(){
                    @Override
@@ -67,6 +103,7 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
                        startNoteActivity(IntentType.EDIT_TEXT, values);
                    }
                });
+        recyclerView.setAdapter(recyclerAdapter);
     }
 
     @Override
@@ -208,11 +245,6 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
         startActivity(intent);
     }
 
-    private List<Note> initItemData(){
-        List<Note> itemList = DataSupport.findAll(Note.class);
-        return itemList;
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -223,6 +255,6 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
     }
 
     private void updateDisplay(){
-        recyclerAdapter.setList(initItemData());
+        recyclerAdapter.setList(datas);
     }
 }

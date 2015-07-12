@@ -2,7 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.gzfgeh.briefnote" >
 
-    <!--  Bmob
+    <!--
+          Bmob
         Application ID: ff52ea8fbec04dfc826eef0ea661ea66
         REST API Key:   e5dd1414265f8b89729234287990e3c8
         Master Key:     31dadf8b89a9c7fec6dedaff77383917
@@ -10,22 +11,22 @@
         Secret Key:     403b9e62b96e3b2d
     -->
     <!-- Bmob -->
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_LOGS"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
 
-    <!-- get email address-->
-    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <!-- get email address -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
     <application
+        android:name=".APP"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/RedTheme"
-        android:name=".APP">
+        android:theme="@style/RedTheme" >
         <activity
             android:name=".ui.Activity.MainActivity"
             android:label="@string/app_name" >
@@ -35,12 +36,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ui.Activity.TextActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden"> <!-- 不弹出键盘 -->
+            android:windowSoftInputMode="adjustResize|stateHidden" > <!-- 不弹出键盘 -->
         </activity>
 
+        <service
+            android:name=".Service.NetDataIntentService"
+            android:exported="false" >
+        </service>
     </application>
 
 </manifest>

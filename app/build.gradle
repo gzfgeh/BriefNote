@@ -41,4 +41,6 @@ dependencies {
     compile(name: 'material-ripple-1.0.2', ext: 'aar')
     compile(name: 'material-1.1.0', ext: 'aar')
     compile(name: 'MaterialEditText-2.1.4', ext: 'aar')
+    compile(name: 'snackbar-2.10.10', ext: 'aar')
+    compile files('libs/fastjson.jar')
 }

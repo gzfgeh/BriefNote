@@ -1,6 +1,9 @@
 package com.gzfgeh.briefnote.database;
 
-import java.sql.Date;
+import com.gzfgeh.briefnote.model.Note;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import cn.bmob.v3.BmobObject;
 
@@ -9,42 +12,36 @@ import cn.bmob.v3.BmobObject;
  */
 public class DBObject extends BmobObject {
 
+    public DBObject() {
+        this("DBObject");
+    }
+
+    public DBObject(String theClassName) {
+        super(theClassName);
+    }
+
     private String email;
-    private String title;
-    private String content;
-    private String url;
-    private Date alertTime;
 
-    public String getTitle() {
-        return title;
+    private List<String> noteList = new ArrayList<>();
+
+    private String noteType;
+
+    private long version;
+
+    public long getVersion() {
+        return version;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setVersion(long version) {
+        this.version = version;
     }
 
-    public String getContent() {
-        return content;
+    public String getNoteType() {
+        return noteType;
     }
 
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public Date getAlertTime() {
-        return alertTime;
-    }
-
-    public void setAlertTime(Date alertTime) {
-        this.alertTime = alertTime;
+    public void setNoteType(String noteType) {
+        this.noteType = noteType;
     }
 
     public String getEmail() {
@@ -53,5 +50,33 @@ public class DBObject extends BmobObject {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<String> getNoteList() {
+        return noteList;
+    }
+
+    public void setNoteList(List<String> noteList) {
+        this.noteList = noteList;
+    }
+
+    public void addNote(Note note) {
+        //noteList.add(JsonUtils.jsonNote(note));
+    }
+
+    public void clearNotes() {
+        noteList.clear();
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        //sb.append(super.toString());
+        //sb.append("\n");
+        for (String note : noteList){
+            sb.append(note);
+            sb.append("\n");
+        }
+        return sb.toString();
     }
 }
