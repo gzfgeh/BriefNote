@@ -42,7 +42,7 @@
         </activity>
 
         <service
-            android:name=".Service.NetDataIntentService"
+            android:name=".service.DataIntentService"
             android:exported="false" >
         </service>
     </application>

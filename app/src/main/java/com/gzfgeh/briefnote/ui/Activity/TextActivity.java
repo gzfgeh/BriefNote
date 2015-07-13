@@ -10,13 +10,10 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Toast;
 
 import com.gzfgeh.briefnote.R;
-import com.gzfgeh.briefnote.database.DBObject;
 import com.gzfgeh.briefnote.model.Note;
-import com.gzfgeh.briefnote.model.NoteToDBObject;
-import com.gzfgeh.briefnote.ui.IntentType;
+import com.gzfgeh.briefnote.utils.KeyUtils;
 import com.gzfgeh.briefnote.utils.ShowViewUtils;
 import com.gzfgeh.briefnote.utils.TimeUtils;
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -27,8 +24,6 @@ import com.rey.material.app.TimePickerDialog;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
-
-import cn.bmob.v3.listener.SaveListener;
 
 /**
  * Created by guzhenf on 7/1/2015.
@@ -58,7 +53,7 @@ public class TextActivity extends BaseActivity {
         if (intent == null || intent.getExtras() == null)
             return;
 
-        type = intent.getExtras().getInt(IntentType.INTENT_KEY, 0);
+        type = intent.getExtras().getInt(KeyUtils.INTENT_KEY, 0);
     }
 
     private void initEditText(){
@@ -66,10 +61,10 @@ public class TextActivity extends BaseActivity {
         contentEditText = (MaterialEditText) findViewById(R.id.content_edit_text);
 
         switch (type){
-            case IntentType.NEW_TEXT:
+            case KeyUtils.NEW_TEXT:
                 break;
 
-            case IntentType.EDIT_TEXT:
+            case KeyUtils.EDIT_TEXT:
                 titleEditText.setText(note.getTitle());
                 contentEditText.setText(note.getContent());
                 break;
@@ -83,11 +78,11 @@ public class TextActivity extends BaseActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         super.initToolBar(toolbar);
         switch (type){
-            case IntentType.NEW_TEXT:
+            case KeyUtils.NEW_TEXT:
                 toolbar.setTitle(getString(R.string.new_text));
                 break;
 
-            case IntentType.EDIT_TEXT:
+            case KeyUtils.EDIT_TEXT:
                 toolbar.setTitle(getString(R.string.edit_text));
                 break;
         }
@@ -129,7 +124,6 @@ public class TextActivity extends BaseActivity {
                 if (!(TextUtils.isEmpty(title)) && !(TextUtils.isEmpty(content)))
                     saveTextNote(title, content);
 
-                getBus().post(IntentType.UPDATE_TEXT);
                 finish();
                 return true;
 
@@ -140,10 +134,11 @@ public class TextActivity extends BaseActivity {
 
     private void saveTextNote(String title, String content){
         hideKeyBoard(titleEditText);
+        note.setType(KeyUtils.TEXT_NOTE);
         note.setTitle(title);
         note.setContent(content);
         note.setUrl("");
-        note.setLastOptTime(TimeUtils.getCurrentTimeInLong());
+        note.setLastOprTime(new Date(TimeUtils.getCurrentTimeInLong()));
 
         if (s[0] == null || s[1] == null)
             note.setAlertTime(new Date(0));
@@ -151,26 +146,30 @@ public class TextActivity extends BaseActivity {
             String time = s[0] + " " + s[1];
             note.setAlertTime(new Date(TimeUtils.timeFormatToLong(time)));
         }
+
         if (note.save()) {
-            Toast.makeText(this, "存储成功", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "存储失败", Toast.LENGTH_SHORT).show();
-            return;
+            ShowViewUtils.showToast(R.string.save_native_success);
+            getBus().post(KeyUtils.UPDATE_TEXT);
+        }
+        else {
+            ShowViewUtils.showToast(R.string.save_native_fail);
+            getBus().post(KeyUtils.NO_UPDATE);
         }
 
-        DBObject dbObject = NoteToDBObject.convert(note);
-        dbObject.save(this, new SaveListener(){
 
-            @Override
-            public void onSuccess() {
-                ShowViewUtils.showToast(TextActivity.this, "success");
-            }
-
-            @Override
-            public void onFailure(int i, String s) {
-                ShowViewUtils.showToast(TextActivity.this, s + " fail");
-            }
-        });
+//        DBObject dbObject = NoteToDBObject.convert(note);
+//        dbObject.save(this, new SaveListener(){
+//
+//            @Override
+//            public void onSuccess() {
+//                ShowViewUtils.showToast(R.string.save_net_success);
+//            }
+//
+//            @Override
+//            public void onFailure(int i, String s) {
+//                ShowViewUtils.showToast(R.string.save_net_fail);
+//            }
+//        });
     }
 
     private void hideKeyBoard(MaterialEditText editText){

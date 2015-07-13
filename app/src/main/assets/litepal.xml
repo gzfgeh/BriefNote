@@ -2,7 +2,7 @@
 <litepal>
     <dbname value="note" ></dbname>
 
-    <version value="2" ></version>
+    <version value="1" ></version>
 
     <list>
         <mapping class="com.gzfgeh.briefnote.model.Note"></mapping>

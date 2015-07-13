@@ -1,6 +1,7 @@
 package com.gzfgeh.briefnote.database;
 
 import com.gzfgeh.briefnote.model.Note;
+import com.gzfgeh.briefnote.utils.JsonUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +25,6 @@ public class DBObject extends BmobObject {
 
     private List<String> noteList = new ArrayList<>();
 
-    private String noteType;
-
     private long version;
 
     public long getVersion() {
@@ -34,14 +33,6 @@ public class DBObject extends BmobObject {
 
     public void setVersion(long version) {
         this.version = version;
-    }
-
-    public String getNoteType() {
-        return noteType;
-    }
-
-    public void setNoteType(String noteType) {
-        this.noteType = noteType;
     }
 
     public String getEmail() {
@@ -61,7 +52,7 @@ public class DBObject extends BmobObject {
     }
 
     public void addNote(Note note) {
-        //noteList.add(JsonUtils.jsonNote(note));
+        noteList.add(JsonUtils.jsonNote(note));
     }
 
     public void clearNotes() {
@@ -71,8 +62,6 @@ public class DBObject extends BmobObject {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        //sb.append(super.toString());
-        //sb.append("\n");
         for (String note : noteList){
             sb.append(note);
             sb.append("\n");

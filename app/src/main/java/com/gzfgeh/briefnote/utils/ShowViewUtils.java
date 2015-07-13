@@ -5,6 +5,7 @@ import android.content.Context;
 import android.support.v4.app.FragmentManager;
 import android.widget.Toast;
 
+import com.gzfgeh.briefnote.APP;
 import com.rey.material.app.DatePickerDialog;
 import com.rey.material.app.Dialog;
 import com.rey.material.app.DialogFragment;
@@ -59,12 +60,18 @@ public class ShowViewUtils {
         }
     }
 
-    public static void showToast(Context context, String hint){
+    public static void showToast(String hint){
         if (toast != null){
-            toast=Toast.makeText(context,hint,Toast.LENGTH_SHORT);
+            toast=Toast.makeText(APP.getContext(),hint,Toast.LENGTH_SHORT);
             toast.show();
         }
+    }
 
+    public static void showToast(int resID){
+        if (toast != null){
+            toast=Toast.makeText(APP.getContext(),APP.getContext().getString(resID),Toast.LENGTH_SHORT);
+            toast.show();
+        }
     }
 
     public void hideToast(){

@@ -1,4 +1,4 @@
-package com.gzfgeh.briefnote.Service;
+package com.gzfgeh.briefnote.service;
 
 import android.app.Activity;
 import android.app.IntentService;
@@ -9,27 +9,35 @@ import com.gzfgeh.briefnote.APP;
 import com.gzfgeh.briefnote.R;
 import com.gzfgeh.briefnote.database.DBObject;
 import com.gzfgeh.briefnote.listener.FindListenerImpl;
-import com.gzfgeh.briefnote.ui.IntentType;
+import com.gzfgeh.briefnote.model.Note;
+import com.gzfgeh.briefnote.utils.KeyUtils;
 import com.gzfgeh.briefnote.utils.AccountUtils;
 import com.gzfgeh.briefnote.utils.SharePerferencesUtils;
 import com.gzfgeh.briefnote.utils.SnackbarUtils;
+
+import org.litepal.crud.DataSupport;
 
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
 
-public class NetDataIntentService extends IntentService {
+public class DataIntentService extends IntentService {
     private String email = null;
 
-    public NetDataIntentService() {
+    public DataIntentService() {
         super("NetDataIntentService");
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        String action = intent.getStringExtra(IntentType.ACTION_KEY);
-        if (IntentType.GET_NET_DATA.equals(action)){
+        String action = intent.getStringExtra(KeyUtils.ACTION_KEY);
+
+        if (KeyUtils.GET_NOTE_DATA.equals(action)){
+
+        }
+
+        if (KeyUtils.GET_NET_DATA.equals(action)){
             String account = SharePerferencesUtils.getValue(APP.getContext(), R.string.sync_account_key, null);
             if (TextUtils.isEmpty(account)){
                 AccountUtils.findValidAccount(APP.getContext(), new AccountUtils.AccountFinderListener() {
@@ -58,6 +66,13 @@ public class NetDataIntentService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         if (intent == null || email == null)
             return;
+
+        String action = intent.getStringExtra(KeyUtils.ACTION_KEY);
+
+        if (KeyUtils.GET_NOTE_DATA.equals(action)){
+            List<Note> itemList = DataSupport.findAll(Note.class);
+
+        }
 
         BmobQuery<DBObject> query = new BmobQuery<>();
         query.addWhereEqualTo("email", email);

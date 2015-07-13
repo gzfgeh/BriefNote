@@ -16,5 +16,9 @@
     <string name="before_year" formatted="false">%d\u0020年前</string>
     <string name="no_account_tip">请在手机设置中添加一个有效的邮箱账号</string>
     <string name="no_internet">请检查网络</string>
+    <string name="save_native_success">存储本地成功</string>
+    <string name="save_native_fail">存储本地失败</string>
+    <string name="save_net_success">存储网络成功</string>
+    <string name="save_net_fail">存储网络失败</string>
 
 </resources>

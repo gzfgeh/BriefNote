@@ -22,10 +22,11 @@ import com.gzfgeh.briefnote.listener.OnMenuItemClickListener;
 import com.gzfgeh.briefnote.listener.OnMenuItemLongClickListener;
 import com.gzfgeh.briefnote.model.DataModel;
 import com.gzfgeh.briefnote.model.Note;
+import com.gzfgeh.briefnote.service.DataIntentService;
 import com.gzfgeh.briefnote.ui.Activity.HandleComponent.HandleFLoatButton;
 import com.gzfgeh.briefnote.ui.Activity.HandleComponent.HandleMenu;
 import com.gzfgeh.briefnote.ui.Fragment.ContextMenuDialogFragment;
-import com.gzfgeh.briefnote.ui.IntentType;
+import com.gzfgeh.briefnote.utils.KeyUtils;
 import com.gzfgeh.briefnote.view.SwipeRefreshLayout;
 
 import java.util.List;
@@ -100,7 +101,7 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
                    @Override
                    public void OnClickListener(View parentV, View v, Integer position, Note values) {
                        super.OnClickListener(parentV, v, position, values);
-                       startNoteActivity(IntentType.EDIT_TEXT, values);
+                       startNoteActivity(KeyUtils.EDIT_TEXT, values);
                    }
                });
         recyclerView.setAdapter(recyclerAdapter);
@@ -119,8 +120,12 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
 
     public void onEventMainThread(Integer event) {
         switch (event){
-            case IntentType.UPDATE_TEXT:
+            case KeyUtils.UPDATE_TEXT:
                 hasUpdateNote = true;
+                break;
+
+            case KeyUtils.NO_UPDATE:
+                hasUpdateNote = false;
                 break;
         }
     }
@@ -231,7 +236,7 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
             @Override
             public void onClick(View v) {
                 Note note = new Note();
-                startNoteActivity(IntentType.NEW_TEXT, note);
+                startNoteActivity(KeyUtils.NEW_TEXT, note);
             }
         });
     }
@@ -239,7 +244,7 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
     private void startNoteActivity(int type, Note note){
         Intent intent = new Intent(this, TextActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putInt(IntentType.INTENT_KEY, type);
+        bundle.putInt(KeyUtils.INTENT_KEY, type);
         getBus().post(note);
         intent.putExtras(bundle);
         startActivity(intent);
@@ -255,6 +260,9 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
     }
 
     private void updateDisplay(){
+        Intent intent = new Intent(MainActivity.this, DataIntentService.class);
+        intent.putExtra(KeyUtils.ACTION_KEY, KeyUtils.GET_NOTE_DATA);
+        startService(intent);
         recyclerAdapter.setList(datas);
     }
 }
