@@ -20,13 +20,20 @@ public class SharePerferencesUtils {
          Editor sp =  context.getSharedPreferences(SETTING, Context.MODE_PRIVATE).edit();  
          sp.putBoolean(context.getString(resKey), value);
          sp.commit();  
-    }  
+    }
+
     public static void putValue(Context context,int resKey, String value) {
          Editor sp =  context.getSharedPreferences(SETTING, Context.MODE_PRIVATE).edit();  
          sp.putString(context.getString(resKey), value);
          sp.commit();  
-    }  
-    
+    }
+
+    public static void putValue(Context context,String resKey, long value) {
+        Editor sp =  context.getSharedPreferences(SETTING, Context.MODE_PRIVATE).edit();
+        sp.putLong(resKey, value);
+        sp.commit();
+    }
+
     public static int getValue(Context context,int resKey, int defValue) {
         SharedPreferences sp =  context.getSharedPreferences(SETTING, Context.MODE_PRIVATE);  
         int value = sp.getInt(context.getString(resKey), defValue);
@@ -48,6 +55,18 @@ public class SharePerferencesUtils {
     public static int getValue(Context context,String resKey, int defValue) {
         SharedPreferences sp =  context.getSharedPreferences(SETTING, Context.MODE_PRIVATE);
         int value = sp.getInt(resKey, defValue);
+        return value;
+    }
+
+    public static String getValue(Context context,String resKey, String defValue) {
+        SharedPreferences sp =  context.getSharedPreferences(SETTING, Context.MODE_PRIVATE);
+        String value = sp.getString(resKey, defValue);
+        return value;
+    }
+
+    public static long getValue(Context context,String resKey, long defValue) {
+        SharedPreferences sp =  context.getSharedPreferences(SETTING, Context.MODE_PRIVATE);
+        long value = sp.getLong(resKey, defValue);
         return value;
     }
 }  

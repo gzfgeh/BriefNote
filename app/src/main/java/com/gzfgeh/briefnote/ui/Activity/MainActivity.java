@@ -67,12 +67,7 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        swipeRefreshLayout.setRefreshing(false);
-                    }
-                }, 3000);
+                updateDisplay(KeyUtils.GET_NET_DATA);
             }
         });
 
@@ -122,7 +117,7 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
         switch (event){
             case KeyUtils.UPDATE_TEXT:
                 hasUpdateNote = true;
-                updateDisplay();
+                updateDisplay(KeyUtils.GET_NOTE_DATA);
                 break;
 
             case KeyUtils.NO_UPDATE:
@@ -256,9 +251,9 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
         startActivity(intent);
     }
 
-    private void updateDisplay(){
+    private void updateDisplay(String type){
         Intent intent = new Intent(this, DataIntentService.class);
-        intent.putExtra(KeyUtils.ACTION_KEY, KeyUtils.GET_NOTE_DATA);
+        intent.putExtra(KeyUtils.ACTION_KEY, type);
         startService(intent);
     }
 }
