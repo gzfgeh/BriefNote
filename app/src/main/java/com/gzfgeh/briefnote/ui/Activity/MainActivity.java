@@ -122,12 +122,18 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
         switch (event){
             case KeyUtils.UPDATE_TEXT:
                 hasUpdateNote = true;
+                updateDisplay();
                 break;
 
             case KeyUtils.NO_UPDATE:
                 hasUpdateNote = false;
                 break;
         }
+    }
+
+    public void onEventMainThread(List<Note> lists){
+        datas = lists;
+        recyclerAdapter.setList(datas);
     }
 
 
@@ -250,19 +256,9 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
         startActivity(intent);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (hasUpdateNote){
-            updateDisplay();
-            hasUpdateNote = false;
-        }
-    }
-
     private void updateDisplay(){
-        Intent intent = new Intent(MainActivity.this, DataIntentService.class);
+        Intent intent = new Intent(this, DataIntentService.class);
         intent.putExtra(KeyUtils.ACTION_KEY, KeyUtils.GET_NOTE_DATA);
         startService(intent);
-        recyclerAdapter.setList(datas);
     }
 }

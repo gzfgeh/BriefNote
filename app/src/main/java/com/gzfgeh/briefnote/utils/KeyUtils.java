@@ -17,4 +17,6 @@ public class KeyUtils {
     public static final String GET_NET_DATA     = "GET_NET_DATA";
     public static final String GET_NOTE_DATA    = "GET_NOTE_DATA";
 
+    public static final String UPDATE_NATIVE_DB_ACTION = "UPDATE_NATIVE_DB_ACTION";
+
 }

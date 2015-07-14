@@ -22,7 +22,6 @@ import com.rey.material.app.Dialog;
 import com.rey.material.app.DialogFragment;
 import com.rey.material.app.TimePickerDialog;
 
-import java.sql.Date;
 import java.text.SimpleDateFormat;
 
 /**
@@ -138,13 +137,13 @@ public class TextActivity extends BaseActivity {
         note.setTitle(title);
         note.setContent(content);
         note.setUrl("");
-        note.setLastOprTime(new Date(TimeUtils.getCurrentTimeInLong()));
+        note.setLastOprTime(TimeUtils.getCurrentTimeInLong());
 
         if (s[0] == null || s[1] == null)
-            note.setAlertTime(new Date(0));
+            note.setAlertTime(0);
         else{
             String time = s[0] + " " + s[1];
-            note.setAlertTime(new Date(TimeUtils.timeFormatToLong(time)));
+            note.setAlertTime(TimeUtils.timeFormatToLong(time));
         }
 
         if (note.save()) {

@@ -41,10 +41,8 @@
             android:windowSoftInputMode="adjustResize|stateHidden" > <!-- 不弹出键盘 -->
         </activity>
 
-        <service
-            android:name=".service.DataIntentService"
-            android:exported="false" >
-        </service>
+        <service android:name=".service.DataIntentService" />
+
     </application>
 
 </manifest>
