@@ -9,6 +9,7 @@
     <string name="sync_account_key">sync_account_key</string>
     <string name="new_text">新的笔记</string>
     <string name="edit_text">编辑笔记</string>
+    <string name="look_text">查看笔记</string>
 
     <string name="today" formatted="false">今天\u0020%s</string>
     <string name="before_day" formatted="false">%d\u0020天前</string>
@@ -20,5 +21,8 @@
     <string name="save_native_fail">存储本地失败</string>
     <string name="save_net_success">存储网络成功</string>
     <string name="save_net_fail">存储网络失败</string>
+    <string name="upload_net_success">更新网络数据成功</string>
+    <string name="upload_net_fail">更新网络数据失败</string>
+    <string name="get_net_fail">获取网络数据失败</string>
 
 </resources>

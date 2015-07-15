@@ -67,6 +67,11 @@ public class TextActivity extends BaseActivity {
                 titleEditText.setText(note.getTitle());
                 contentEditText.setText(note.getContent());
                 break;
+
+            case KeyUtils.LOOK_TEXT:
+                titleEditText.setText(note.getTitle());
+                contentEditText.setText(note.getContent());
+                break;
         }
         titleEditText.addTextChangedListener(new SimpleTextWatcher());
         contentEditText.addTextChangedListener(new SimpleTextWatcher());
@@ -81,8 +86,8 @@ public class TextActivity extends BaseActivity {
                 toolbar.setTitle(getString(R.string.new_text));
                 break;
 
-            case KeyUtils.EDIT_TEXT:
-                toolbar.setTitle(getString(R.string.edit_text));
+            case KeyUtils.LOOK_TEXT:
+                toolbar.setTitle(getString(R.string.look_text));
                 break;
         }
     }
@@ -154,21 +159,6 @@ public class TextActivity extends BaseActivity {
             ShowViewUtils.showToast(R.string.save_native_fail);
             getBus().post(KeyUtils.NO_UPDATE);
         }
-
-
-//        DBObject dbObject = NoteToDBObject.convert(note);
-//        dbObject.save(this, new SaveListener(){
-//
-//            @Override
-//            public void onSuccess() {
-//                ShowViewUtils.showToast(R.string.save_net_success);
-//            }
-//
-//            @Override
-//            public void onFailure(int i, String s) {
-//                ShowViewUtils.showToast(R.string.save_net_fail);
-//            }
-//        });
     }
 
     private void hideKeyBoard(MaterialEditText editText){

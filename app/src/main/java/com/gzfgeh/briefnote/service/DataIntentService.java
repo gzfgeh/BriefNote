@@ -1,24 +1,24 @@
 package com.gzfgeh.briefnote.service;
 
-import android.app.Activity;
 import android.app.IntentService;
 import android.content.Intent;
+import android.text.TextUtils;
 
 import com.gzfgeh.briefnote.APP;
-import com.gzfgeh.briefnote.R;
 import com.gzfgeh.briefnote.database.DBObject;
 import com.gzfgeh.briefnote.listener.FindListenerImpl;
 import com.gzfgeh.briefnote.model.Note;
 import com.gzfgeh.briefnote.utils.JsonUtils;
 import com.gzfgeh.briefnote.utils.KeyUtils;
 import com.gzfgeh.briefnote.utils.SharePerferencesUtils;
-import com.gzfgeh.briefnote.utils.SnackbarUtils;
 
 import org.litepal.crud.DataSupport;
 
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.listener.SaveListener;
+import cn.bmob.v3.listener.UpdateListener;
 import de.greenrobot.event.EventBus;
 
 public class DataIntentService extends IntentService {
@@ -71,12 +71,43 @@ public class DataIntentService extends IntentService {
                         dbObject.setEmail(account);
                         dbObject.setVersion(1);
                     }
+                    dbObject.clearNotes();
+                    for(Note note : notes)
+                        dbObject.addNote(note);
+
+                    if (TextUtils.isEmpty(dbObject.getObjectId())){
+                        dbObject.save(APP.getContext(), new SaveListener() {
+                            @Override
+                            public void onSuccess() {
+                                SharePerferencesUtils.putValue(APP.getContext(), account, dbObject.getVersion());
+                                EventBus.getDefault().postSticky(KeyUtils.UPDATE_NET_SUCCESS);
+                            }
+
+                            @Override
+                            public void onFailure(int i, String s) {
+                                EventBus.getDefault().postSticky(KeyUtils.UPDATE_NET_FAIL);
+                            }
+                        });
+                    }else {
+                        dbObject.update(APP.getContext(), new UpdateListener() {
+                            @Override
+                            public void onSuccess() {
+                                SharePerferencesUtils.putValue(APP.getContext(), account, dbObject.getVersion());
+                                EventBus.getDefault().postSticky(KeyUtils.UPDATE_NET_SUCCESS);
+                            }
+
+                            @Override
+                            public void onFailure(int i, String s) {
+                                EventBus.getDefault().postSticky(KeyUtils.UPDATE_NET_FAIL);
+                            }
+                        });
+                    }
                 }
 
                 @Override
                 public void onError(int i, String s) {
                     super.onError(i, s);
-                    SnackbarUtils.show((Activity) APP.getContext(), R.string.no_internet);
+                    EventBus.getDefault().postSticky(KeyUtils.GET_NET_FAIL);
                 }
             });
         }

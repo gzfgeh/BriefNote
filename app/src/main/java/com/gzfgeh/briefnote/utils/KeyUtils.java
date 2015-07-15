@@ -9,7 +9,11 @@ public class KeyUtils {
     public static final int NO_UPDATE           = 0;
     public static final int NEW_TEXT            = 1;
     public static final int EDIT_TEXT           = 2;
-    public static final int UPDATE_TEXT         = 3;
+    public static final int LOOK_TEXT           = 3;
+    public static final int UPDATE_TEXT         = 4;
+    public static final int UPDATE_NET_SUCCESS  = 5;
+    public static final int UPDATE_NET_FAIL     = 6;
+    public static final int GET_NET_FAIL        = 7;
 
     public static final String TEXT_NOTE        = "text";
 

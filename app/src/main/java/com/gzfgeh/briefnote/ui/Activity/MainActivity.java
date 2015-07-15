@@ -2,7 +2,6 @@ package com.gzfgeh.briefnote.ui.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
@@ -27,6 +26,7 @@ import com.gzfgeh.briefnote.ui.Activity.HandleComponent.HandleFLoatButton;
 import com.gzfgeh.briefnote.ui.Activity.HandleComponent.HandleMenu;
 import com.gzfgeh.briefnote.ui.Fragment.ContextMenuDialogFragment;
 import com.gzfgeh.briefnote.utils.KeyUtils;
+import com.gzfgeh.briefnote.utils.SnackbarUtils;
 import com.gzfgeh.briefnote.view.SwipeRefreshLayout;
 
 import java.util.List;
@@ -43,8 +43,6 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
     private FragmentManager fragmentManager;
     private FloatingActionButton button, textBtn, photoBtn, soundsBtn, movieBtn;
     private NotesAdapter recyclerAdapter;
-    private boolean hasUpdateNote = false;
-    private boolean isRefreshing = false;
     private List<Note> datas;
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -74,12 +72,7 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
         swipeRefreshLayout.setOnLoadListener(new SwipeRefreshLayout.OnLoadListener() {
             @Override
             public void onLoad() {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        swipeRefreshLayout.setLoading(false);
-                    }
-                }, 3000);
+                updateDisplay(KeyUtils.GET_NET_DATA);
             }
         });
     }
@@ -96,7 +89,7 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
                    @Override
                    public void OnClickListener(View parentV, View v, Integer position, Note values) {
                        super.OnClickListener(parentV, v, position, values);
-                       startNoteActivity(KeyUtils.EDIT_TEXT, values);
+                       startNoteActivity(KeyUtils.LOOK_TEXT, values);
                    }
                });
         recyclerView.setAdapter(recyclerAdapter);
@@ -116,12 +109,28 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
     public void onEventMainThread(Integer event) {
         switch (event){
             case KeyUtils.UPDATE_TEXT:
-                hasUpdateNote = true;
                 updateDisplay(KeyUtils.GET_NOTE_DATA);
                 break;
 
             case KeyUtils.NO_UPDATE:
-                hasUpdateNote = false;
+                break;
+
+            case KeyUtils.UPDATE_NET_SUCCESS:
+                swipeRefreshLayout.setRefreshing(false);
+                swipeRefreshLayout.setLoading(false);
+                SnackbarUtils.show(this, R.string.upload_net_success);
+                break;
+
+            case KeyUtils.UPDATE_NET_FAIL:
+                swipeRefreshLayout.setRefreshing(false);
+                swipeRefreshLayout.setLoading(false);
+                SnackbarUtils.show(this, R.string.upload_net_fail);
+                break;
+
+            case KeyUtils.GET_NET_FAIL:
+                swipeRefreshLayout.setRefreshing(false);
+                swipeRefreshLayout.setLoading(false);
+                SnackbarUtils.show(this, R.string.get_net_fail);
                 break;
         }
     }
