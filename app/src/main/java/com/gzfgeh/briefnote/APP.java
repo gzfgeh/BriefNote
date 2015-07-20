@@ -37,7 +37,7 @@ public class APP extends LitePalApplication {
         if (db != null)
             db = Connector.getDatabase();
 
-        String account = SharePerferencesUtils.getValue(getApplicationContext(), R.string.sync_account_key, null);
+        String account = SharePerferencesUtils.getValue(R.string.sync_account_key, null);
         if (TextUtils.isEmpty(account)) {
             AccountUtils.findValidAccount(getApplicationContext(), new AccountUtils.AccountFinderListener() {
                 @Override
@@ -48,7 +48,7 @@ public class APP extends LitePalApplication {
                 @Override
                 protected void onOne(String account) {
                     email = account;
-                    SharePerferencesUtils.putValue(getApplicationContext(), R.string.sync_account_key, account);
+                    SharePerferencesUtils.putValue(R.string.sync_account_key, account);
                 }
 
                 @Override

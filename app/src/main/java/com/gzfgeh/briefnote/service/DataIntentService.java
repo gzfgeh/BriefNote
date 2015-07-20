@@ -50,7 +50,7 @@ public class DataIntentService extends IntentService {
                     List<Note> notes = DataSupport.findAll(Note.class);
                     if (dbObjects != null && dbObjects.size() >= 1){
                         dbObject = dbObjects.get(0);
-                        long localVersion = SharePerferencesUtils.getValue(DataIntentService.this, ((APP) getApplication()).getEmail(), 0);
+                        long localVersion = SharePerferencesUtils.getValue(((APP) getApplication()).getEmail(), 0);
                         if (dbObject.getVersion() > localVersion){
                             for(String string : dbObject.getNoteList()){
                                 Note note = JsonUtils.parseNote(string);
@@ -58,7 +58,7 @@ public class DataIntentService extends IntentService {
                                     return;
 
                                 note.save();
-                                SharePerferencesUtils.putValue(DataIntentService.this, account, dbObject.getVersion());
+                                SharePerferencesUtils.putValue(account, dbObject.getVersion());
                             }
                             List<Note> itemList = DataSupport.findAll(Note.class);
                             EventBus.getDefault().postSticky(itemList);
@@ -79,7 +79,7 @@ public class DataIntentService extends IntentService {
                         dbObject.save(APP.getContext(), new SaveListener() {
                             @Override
                             public void onSuccess() {
-                                SharePerferencesUtils.putValue(APP.getContext(), account, dbObject.getVersion());
+                                SharePerferencesUtils.putValue(account, dbObject.getVersion());
                                 EventBus.getDefault().postSticky(KeyUtils.UPDATE_NET_SUCCESS);
                             }
 
@@ -92,7 +92,7 @@ public class DataIntentService extends IntentService {
                         dbObject.update(APP.getContext(), new UpdateListener() {
                             @Override
                             public void onSuccess() {
-                                SharePerferencesUtils.putValue(APP.getContext(), account, dbObject.getVersion());
+                                SharePerferencesUtils.putValue(account, dbObject.getVersion());
                                 EventBus.getDefault().postSticky(KeyUtils.UPDATE_NET_SUCCESS);
                             }
 

@@ -30,7 +30,7 @@ public class DataModel {
     }
 
     public static List<Note> getNetData(){
-        String account = SharePerferencesUtils.getValue(APP.getContext(), R.string.sync_account_key, null);
+        String account = SharePerferencesUtils.getValue(R.string.sync_account_key, null);
         if (TextUtils.isEmpty(account)){
             AccountUtils.findValidAccount(APP.getContext(), new AccountUtils.AccountFinderListener() {
                 @Override
@@ -40,7 +40,7 @@ public class DataModel {
 
                 @Override
                 protected void onOne(String account) {
-                    SharePerferencesUtils.putValue(APP.getContext(), R.string.sync_account_key, account);
+                    SharePerferencesUtils.putValue(R.string.sync_account_key, account);
                     syncNotes(account);
                 }
 

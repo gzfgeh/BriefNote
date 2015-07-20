@@ -23,7 +23,7 @@ public class AccountUtils {
     public static void findValidAccount(Context context, AccountFinderListener listener){
         if (listener == null)
             return;
-        String accountString = SharePerferencesUtils.getValue(context, R.string.sync_account_key, null);
+        String accountString = SharePerferencesUtils.getValue(R.string.sync_account_key, null);
         if (!TextUtils.isEmpty(accountString)){
             listener.setHasAccountSave(true);
         }

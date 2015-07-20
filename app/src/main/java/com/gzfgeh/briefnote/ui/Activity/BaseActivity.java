@@ -85,7 +85,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     private ThemeUtils.Theme getCurrentTheme(){
-        int value = SharePerferencesUtils.getValue(this, ThemeUtils.CHANGE_THEME, 0);
+        int value = SharePerferencesUtils.getValue(ThemeUtils.CHANGE_THEME, 0);
         return ThemeUtils.Theme.mapValueToTheme(value);
     }
 
